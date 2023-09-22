@@ -1,0 +1,18 @@
+<div{{ attributes.defaults(stimulus_controller('game')) }} 
+{% if running %}
+    data-poll="delay({{ max(30, 300 - score) }})|addAsteroid"
+{% endif %}
+
+data-action="keydown.left@document->game#moveLeft keydown.right@document->game#moveRight"
+>
+    <dialog {{ gameOver ? 'open' }}>Game Over</dialog>
+    <button {{ gameOver ? 'disabled' }} data-action="live#action" data-action-name="toggleRunning">{{ running ? 'Pause' : 'Start' }}</button>
+    <div>Score:  {{ score }}</div>
+    <div class="game">
+        {% for row, asteroid in asteroids %}
+            <div class="asteroid" style="--column:{{ asteroid + 1 }}; --row: {{ row + 1 }}"></div>
+        {% endfor %}
+        <div class="spaceship {{ gameOver ? 'explode' }}" style="--column:{{ spaceship + 1 }}; --row:10 "></div>
+    </div>
+       
+</div>
